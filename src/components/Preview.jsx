@@ -165,7 +165,7 @@ export default function Preview({ mode }) {
           <div className="container mx-auto px-2 md:px-6 max-w-6xl w-full flex flex-col h-full justify-center relative z-10 pointer-events-none">
             <div className="flex justify-between items-center mb-8 pointer-events-auto">
               <h2 className="text-4xl md:text-5xl font-space font-bold tracking-tight">Projects</h2>
-              <a href="#" className="flex items-center gap-2 text-sm md:text-base font-mono border border-border px-3 md:px-5 py-2 hover:bg-surface transition-colors text-primary">
+              <a href="#" className="flex items-center gap-2 text-sm md:text-base font-mono border border-white/20 hover:border-white/40 bg-background px-3 md:px-5 py-2 hover:bg-surface transition-colors text-primary">
                 <FaGithub className="w-4 h-4" />
                 <span className="hidden md:inline">Show More Projects on Github</span>
                 <span className="inline md:hidden">More on Github</span>

@@ -1,7 +1,7 @@
 export const portfolio = {
   name: "Aarav Sukhadiya",
   role: "Software Engineering Student",
-  bio: "First-year Computer Science undergraduate at Scaler School of Technology, concurrently pursuing a BS in Data Science and Applications from IIT Madras.",
+  bio: "Second-year Computer Science undergraduate at Scaler School of Technology, concurrently pursuing a BS in Data Science and Applications from IIT Madras.",
   about: {
     intro: "I'm drawn to problems that sit between systems, model architectures, and learning — working primarily across LLMs, supervised learning pipelines, and computer vision (like DFdetect). I prepare thoroughly before I build—researching, prototyping, and defending design choices—and I'm most engaged by engineering work where the models measurably affect the people using them. Oh, and I use Arch btw.",
     focus: "LLMs, Supervised Learning, Deepfake Detection",

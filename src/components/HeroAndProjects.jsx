@@ -106,7 +106,7 @@ export default function HeroAndProjects({ data }) {
                 href={data.social?.github || "https://github.com"} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-2 text-sm md:text-base font-mono border border-border bg-white/5 px-3 md:px-5 py-2 hover:bg-white/10 transition-colors text-primary"
+                className="flex items-center gap-2 text-sm md:text-base font-mono border border-white/20 hover:border-white/40 bg-background px-3 md:px-5 py-2 hover:bg-surface transition-colors text-primary"
               >
                 <FaGithub className="w-4 h-4" />
                 <span className="hidden md:inline">Show More Projects on Github</span>
