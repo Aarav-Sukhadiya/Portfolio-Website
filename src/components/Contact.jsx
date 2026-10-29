@@ -1,7 +1,7 @@
 export default function Contact({ social }) {
   return (
-    <section id="contact" className="py-32 bg-surface/30">
-      <div className="container mx-auto px-6 max-w-3xl text-center">
+    <section id="contact" className="min-h-screen flex flex-col justify-center py-20 bg-surface/30 scroll-mt-0">
+      <div className="container mx-auto px-6 max-w-3xl text-center animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
         <h2 className="text-sm font-mono text-accent mb-4 tracking-widest uppercase">Let's Build Something</h2>
         <h3 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">Have an interesting project? Let's talk.</h3>
         <p className="text-xl text-secondary mb-12 text-balance">

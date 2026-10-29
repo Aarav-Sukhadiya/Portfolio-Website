@@ -15,18 +15,17 @@ export default function Navbar({ name }) {
 
   const { scrollY } = useScroll();
   
-  // The Projects section slides in from scroll 0 to 0.4 of a 150vh scroll distance (which is 0 to 0.6vh)
-  // We want the navbar to hide exactly along this same distance
-  const hideDistance = vh * 0.6;
+  // The navbar hides over the first half of the Hero-to-Projects transition (0.5vh)
+  const hideDistance = vh * 0.5;
   const scrubbedY = useTransform(scrollY, [0, hideDistance], ["0%", "-100%"]);
   
-  // For the background color, we still want it to blur when slightly scrolled, unless it's fully hidden.
-  // Wait, if it's scrubbing away, the background can stay transparent or blur.
-  // Let's just track if we are past 50px to add the blur class if it's forced open.
-  const [isScrolled, setIsScrolled] = useState(false);
+  // Track if we are past the hero scrub to enable hover animations on all subsequent pages
+  const [isPastHero, setIsPastHero] = useState(false);
   useEffect(() => {
-    return scrollY.onChange(latest => setIsScrolled(latest > 50));
-  }, [scrollY]);
+    return scrollY.on('change', (latest) => {
+      setIsPastHero(latest >= hideDistance);
+    });
+  }, [scrollY, hideDistance]);
 
   const navLinks = [
     { name: 'Home', href: '#' },
@@ -52,7 +51,9 @@ export default function Navbar({ name }) {
         style={{ 
           "--scroll-y": scrubbedY,
           transform: forceShow ? "translateY(0%)" : "translateY(var(--scroll-y))",
-          transition: forceShow ? "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)" : "none"
+          transition: isPastHero 
+            ? "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)" 
+            : (forceShow ? "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)" : "none")
         }}
         className="relative w-full z-40 bg-transparent py-6"
       >

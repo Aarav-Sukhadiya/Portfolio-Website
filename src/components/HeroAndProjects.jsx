@@ -17,20 +17,23 @@ export default function HeroAndProjects({ data }) {
 
   const { scrollY } = useScroll();
 
-  // 150vh of scrolling + 100vh screen = 250vh total section height.
-  // We use 1.35 (90% of the 150vh scroll distance) to give a 10% pause at the end
-  const scrubDistance = vh * 1.35;
+  // 100vh of scrolling transitions Hero to Projects cleanly aligned with 1-page steps
+  const scrubDistance = vh;
 
   // Hero text moves out to the left
   const heroX = useTransform(scrollY, [0, scrubDistance], ["0vw", "-100vw"]);
 
-  // Parent background fades in
-  const projectsOpacity = useTransform(scrollY, [0, scrubDistance], [0, 1]);
+  // Hero background image fades out as we transition into Projects so it never bleeds into Projects or About
+  const heroBgOpacity = useTransform(scrollY, [0, scrubDistance * 0.7], [1, 0]);
+  const heroBgDisplay = useTransform(scrollY, v => v < scrubDistance ? "block" : "none");
+
+  // Projects background fades in smoothly over the first 70% of the scrub and stays solid
+  const projectsOpacity = useTransform(scrollY, [0, scrubDistance * 0.7], [0, 1]);
   
   // Dynamically enable pointer events when the section becomes visible to avoid blocking Hero
   const display = useTransform(scrollY, v => v > 5 ? "flex" : "none");
 
-  // Title and Button now have their own independent, position-aware curves!
+  // Title and Button have position-aware curves:
   // 0.0 = Far Left (Projects Title)
   // 1.0 = Far Right (GitHub Button)
   const titleX = usePositionAwareTransform(scrollY, scrubDistance, 0.0, 10);
@@ -46,13 +49,16 @@ export default function HeroAndProjects({ data }) {
   ];
 
   return (
-    <section id="home" className="relative h-[250vh] bg-background">
-      <div id="projects" className="absolute top-[80vh] w-full" />
+    <section id="home" className="relative h-[200vh] bg-background">
+      <div id="projects" className="absolute top-[100vh] w-full" />
       <div className="sticky top-0 h-screen w-full overflow-hidden">
 
         
-        {/* FIXED BACKGROUND IMAGE */}
-        <div className="absolute inset-0 z-0">
+        {/* FIXED BACKGROUND IMAGE - Fades out as we enter Projects so it never bleeds into Projects or About */}
+        <motion.div 
+          style={{ opacity: heroBgOpacity, display: heroBgDisplay }} 
+          className="absolute inset-0 z-0"
+        >
           <img 
             src="/hero-bg.jpg" 
             alt={`${data.name} - Banner`} 
@@ -60,7 +66,7 @@ export default function HeroAndProjects({ data }) {
             loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-background"></div>
-        </div>
+        </motion.div>
 
         {/* HERO TEXT SECTION */}
         <motion.div 
@@ -94,7 +100,7 @@ export default function HeroAndProjects({ data }) {
         {/* PROJECTS SECTION */}
         <motion.div 
           style={{ opacity: projectsOpacity, display }}
-          className="absolute inset-0 w-full h-full flex-col justify-center bg-surface/95 backdrop-blur-md z-20 px-4 md:px-0 py-12 md:py-0"
+          className="absolute inset-0 w-full h-full flex flex-col justify-center bg-surface/95 backdrop-blur-md z-20 px-4 md:px-0 py-12 md:py-0"
         >
           <InteractiveScanningHUD scrollY={scrollY} scrubDistance={scrubDistance} />
           <div className="container mx-auto px-2 md:px-6 max-w-6xl w-full flex flex-col h-full justify-center relative z-10">

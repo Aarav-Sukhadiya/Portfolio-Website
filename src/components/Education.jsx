@@ -2,8 +2,8 @@ export default function Education({ education }) {
   if (!education || education.length === 0) return null;
 
   return (
-    <section className="py-12 bg-surface/30">
-      <div className="container mx-auto px-6 max-w-5xl">
+    <section id="education" className="min-h-screen flex flex-col justify-center py-20 bg-surface/30 scroll-mt-0">
+      <div className="container mx-auto px-6 max-w-5xl animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
         <h2 className="text-2xl font-bold mb-8 tracking-tight">Education</h2>
         
         <div className="grid md:grid-cols-2 gap-8">

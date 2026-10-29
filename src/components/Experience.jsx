@@ -1,7 +1,7 @@
 export default function Experience({ experience }) {
   return (
-    <section id="experience" className="py-24">
-      <div className="container mx-auto px-6 max-w-5xl">
+    <section id="experience" className="min-h-screen flex flex-col justify-center py-20 scroll-mt-0">
+      <div className="container mx-auto px-6 max-w-5xl animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
         <h2 className="text-3xl font-bold mb-16 tracking-tight">Experience</h2>
         
         <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-px before:bg-border">
