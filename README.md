@@ -54,6 +54,12 @@ The optimized production output is generated in `dist/`.
 npm run preview
 ```
 
+## Deployment
+
+The site deploys to [Vercel](https://vercel.com) as a static build. Import the GitHub repository in the Vercel dashboard (or run `npx vercel` locally); [`vercel.json`](vercel.json) already sets the install command (`npm ci`), build command (`npm run build`) and output directory (`dist`). After that, every push to `main` deploys to production, and other branches get preview URLs.
+
+`vercel.json` also caches Vite's content-hashed files in `/assets/` for a year and adds basic security headers. Files in `public/` keep Vercel's default caching, so a replaced image shows up on the next deploy.
+
 ## Project Structure
 
 ```text
@@ -72,6 +78,7 @@ npm run preview
 │   ├── index.css           Tailwind theme and global styles
 │   └── main.jsx            Application entry point
 ├── index.html
+├── vercel.json             Vercel build settings and response headers
 └── vite.config.js
 ```
 

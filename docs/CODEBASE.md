@@ -12,6 +12,7 @@ A map of where things live and how they connect. For the visual rules (fonts, co
 ## Directory map
 
 ```text
+vercel.json                    Vercel deployment: build settings, caching and security headers
 index.html                     HTML shell: <title>, meta description, Google Fonts, hero image preload
 public/                        Served as-is from the site root
   hero-bg.avif                   Hero background (served to browsers that support AVIF)

@@ -67,6 +67,10 @@ Static files in `public/` are referenced with root-absolute paths (`/hero-bg.avi
 - **Hero:** `hero-bg.avif` (3264×1484, AVIF quality 60) is served through a `<picture>` in `Hero.jsx`, with `hero-bg.jpg` (quality 90) as the fallback. `index.html` preloads only the AVIF (`type="image/avif"`), so browsers without AVIF skip the preload. If you replace the hero image, regenerate both files.
 - **Profile:** `profile.jpg` is a 512×512 center crop (quality 85, progressive), enough for its 192px display size at 2× density.
 
+## Deployment
+
+The site deploys to Vercel with the settings in `vercel.json` (`npm ci`, `npm run build`, output `dist`). It is a single page with no client-side routes, so it needs no SPA rewrites; add one only if you add a router. The one-year `immutable` cache applies only to `/assets/`, whose file names Vite content-hashes. Don't extend it to `public/` files: their names don't change when their content does.
+
 ## Repo rules
 
 - Never commit or push without the user's explicit permission for that action.
