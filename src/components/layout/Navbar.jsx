@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import useViewportHeight from '../hooks/useViewportHeight';
+import { m, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import useViewportHeight from '../../hooks/useViewportHeight';
 
 const navLinks = [
   { name: 'Home', href: '#' },
@@ -20,7 +20,7 @@ export default function Navbar() {
 
   const { scrollY } = useScroll();
 
-  // The navbar hides over the first half of the Hero-to-Projects scrub (HeroAndProjects uses 1vh)
+  // The navbar hides over the first half of the Hero → Projects transition (one screen of scroll)
   const hideDistance = vh * 0.5;
   const scrubbedY = useTransform(scrollY, [0, hideDistance], ["0%", "-100%"]);
 
@@ -48,7 +48,7 @@ export default function Navbar() {
       {/* Invisible hit area at the very top edge of the screen */}
       <div className="absolute top-0 left-0 w-full h-8 bg-transparent z-50" />
 
-      <motion.header
+      <m.header
         style={{
           "--scroll-y": scrubbedY,
           transform: forceShow ? "translateY(0%)" : "translateY(var(--scroll-y))",
@@ -104,7 +104,7 @@ export default function Navbar() {
             </nav>
           )}
         </div>
-      </motion.header>
+      </m.header>
     </div>
   );
 }

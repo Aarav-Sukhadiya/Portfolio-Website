@@ -8,9 +8,9 @@ export function createBezierEasing(x1, y1, x2, y2) {
     if (t >= 1) return 1;
     let T = t;
     for (let i = 0; i < 5; i++) {
-      let currentX = 3*Math.pow(1-T,2)*T*x1 + 3*(1-T)*Math.pow(T,2)*x2 + Math.pow(T,3);
-      let derivativeX = 3*Math.pow(1-T,2)*x1 - 6*T*(1-T)*x1 + 6*T*(1-T)*x2 - 3*Math.pow(T,2)*x2 + 3*Math.pow(T,2);
-      let diff = currentX - t;
+      const currentX = 3*Math.pow(1-T,2)*T*x1 + 3*(1-T)*Math.pow(T,2)*x2 + Math.pow(T,3);
+      const derivativeX = 3*Math.pow(1-T,2)*x1 - 6*T*(1-T)*x1 + 6*T*(1-T)*x2 - 3*Math.pow(T,2)*x2 + 3*Math.pow(T,2);
+      const diff = currentX - t;
       if (Math.abs(diff) < 0.001) break;
       T = T - diff / (derivativeX || 1);
       T = Math.max(0, Math.min(1, T));
@@ -19,8 +19,10 @@ export function createBezierEasing(x1, y1, x2, y2) {
   };
 }
 
-// A custom hook for position-aware transforms with deterministic organic variation
-export default function usePositionAwareTransform(scrollY, scrubDistance, basePosition, index = 0, outputRange = ["100vw", "0vw"]) {
+// Position-aware scroll transform with deterministic organic variation. Used by the stage's
+// useStageEnter; basePosition is its `lead` (0 = farthest from the entry edge and arrives first,
+// 1 = nearest and trails).
+export default function usePositionAwareTransform(scrollY, inputRange, basePosition, index = 0, outputRange = ["100vw", "0vw"]) {
   // Deterministic noise between -0.15 and +0.15 based on index to add organic variety.
   // This ensures that items on similar Y or X levels don't feel identically timed.
   const customEase = useMemo(() => {
@@ -28,11 +30,11 @@ export default function usePositionAwareTransform(scrollY, scrubDistance, basePo
     const effectivePos = Math.max(0, Math.min(1, basePosition + noise));
     const l = (start, end) => start + (end - start) * effectivePos;
 
-    // Interpolate bezier control points based on horizontal position
-    // Far Left (xPos=0): [0.05, 0.9, 0.1, 1.0] -> fast initial, slow finish
-    // Far Right (xPos=1): [0.8, 0.0, 0.2, 1.0] -> slow initial, fast middle, controlled finish
+    // Interpolate the bezier control points by lead:
+    // lead 0: [0.05, 0.9, 0.1, 1.0] -> fast start, slow finish
+    // lead 1: [0.8, 0.0, 0.2, 1.0] -> slow start, fast middle, controlled finish
     return createBezierEasing(l(0.05, 0.8), l(0.9, 0.0), l(0.1, 0.2), 1.0);
   }, [basePosition, index]);
 
-  return useTransform(scrollY, [0, scrubDistance], outputRange, { ease: customEase });
+  return useTransform(scrollY, inputRange, outputRange, { ease: customEase });
 }

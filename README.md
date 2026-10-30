@@ -58,18 +58,24 @@ npm run preview
 
 ```text
 .
-├── docs/                 Design documentation
-├── public/               Images and static assets served from the site root
+├── docs/                   Design system and codebase guide
+├── public/                 Images and static assets served from the site root
 ├── src/
-│   ├── components/       Portfolio sections and reusable UI
-│   ├── data/             Portfolio content
-│   ├── hooks/            Custom React hooks
-│   ├── App.jsx           Main application component
-│   ├── index.css         Global styles
-│   └── main.jsx          Application entry point
+│   ├── components/
+│   │   ├── backgrounds/    Animated, cursor-reactive section backgrounds
+│   │   ├── layout/         Navbar and footer
+│   │   ├── sections/       Hero, Projects, About, Skills, Experience & Education, Contact
+│   │   └── stage/          The pinned, scroll-driven desktop stage
+│   ├── data/               Portfolio content
+│   ├── hooks/              Custom React hooks
+│   ├── App.jsx             Page assembly
+│   ├── index.css           Tailwind theme and global styles
+│   └── main.jsx            Application entry point
 ├── index.html
 └── vite.config.js
 ```
+
+For a file-by-file map and a "where do I change…" table, see [`docs/CODEBASE.md`](docs/CODEBASE.md).
 
 ## Customization
 

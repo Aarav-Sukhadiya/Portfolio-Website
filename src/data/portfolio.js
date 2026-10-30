@@ -19,6 +19,7 @@ export const portfolio = {
     {
       id: "project-1",
       name: "LLM From Scratch",
+      category: "ML / NLP",
       description: "An educational project implementing a Generative Pre-trained Transformer (GPT) language model from scratch using PyTorch.",
       technologies: ["Python 3.11", "PyTorch", "CUDA", "tiktoken"],
       challenge: "Building a highly optimized, fully vectorized Multi-Head Attention layer and custom BPE tokenization pipeline.",
@@ -28,6 +29,7 @@ export const portfolio = {
     {
       id: "featured",
       name: "CleanFlowEnv",
+      category: "AI Agents / ETL",
       description: "OpenEnv-Compliant Environment for AI Data-Cleaning Agents. Built an environment that benchmarks AI agents on real-world data-cleaning and ETL tasks.",
       technologies: ["Python", "FastAPI", "Docker", "Pydantic v2", "MCP"],
       challenge: "Designing 11 structured actions, 6 difficulty-tiered tasks, and a robust 5-component grading system.",
@@ -37,6 +39,7 @@ export const portfolio = {
     {
       id: "project-2",
       name: "HTTP Load Balancer",
+      category: "Networking",
       description: "A Layer 7 (HTTP) load balancer built from scratch in pure Python using only the standard library.",
       technologies: ["Python", "Threading", "Sockets", "JSON"],
       challenge: "Implementing concurrent request handling with ThreadingMixIn and maintaining a live health-check state across active nodes.",
@@ -46,6 +49,7 @@ export const portfolio = {
     {
       id: "project-3",
       name: "DFdetect",
+      category: "Computer Vision",
       description: "Local-First Deepfake Detection Pipeline. A fully offline deepfake detection tool for images and videos with batch processing.",
       technologies: ["Python", "PyTorch", "timm", "OpenCV", "Gradio", "SQLite"],
       challenge: "Implementing probability calibration and per-identity face tracking for multi-face videos.",
@@ -55,6 +59,7 @@ export const portfolio = {
     {
       id: "project-4",
       name: "OSC-Tracker",
+      category: "Web Dashboard",
       description: "Open Source Contribution Dashboard. A personal command center unifying a contributor's GitHub workflow alongside personal data.",
       technologies: ["React 19", "Vite", "Firebase Auth", "Firestore", "GitHub REST API"],
       challenge: "Integrating real-time GitHub REST API data (assigned issues, open PRs) with a 365-day heatmap.",
@@ -64,6 +69,7 @@ export const portfolio = {
     {
       id: "project-5",
       name: "Airbnb Clone",
+      category: "Full-Stack Web",
       description: "A full-stack web application replicating the core booking and listing functionality of Airbnb.",
       technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
       challenge: "Handling complex date availability queries and responsive image galleries.",
