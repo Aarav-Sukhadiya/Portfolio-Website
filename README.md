@@ -19,18 +19,17 @@ A responsive personal portfolio for **Aarav Sukhadiya**, built with React and Vi
 - Tailwind CSS 4
 - Framer Motion
 - React Icons
-- Lucide React
 
 ## Getting Started
 
 ### Prerequisites
 
-Install a recent Node.js LTS release and npm.
+Node.js `^20.19.0` or `>=22.12.0` (required by Vite 8) and npm.
 
 ### Installation
 
 ```bash
-npm install
+npm ci
 ```
 
 ### Development
@@ -60,7 +59,7 @@ npm run preview
 ```text
 .
 ├── docs/                 Design documentation
-├── public/               Images, icons, and static assets
+├── public/               Images and static assets served from the site root
 ├── src/
 │   ├── components/       Portfolio sections and reusable UI
 │   ├── data/             Portfolio content

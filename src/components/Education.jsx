@@ -3,12 +3,12 @@ export default function Education({ education }) {
 
   return (
     <section id="education" className="min-h-screen flex flex-col justify-center py-20 bg-surface/30 scroll-mt-0">
-      <div className="container mx-auto px-6 max-w-5xl animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+      <div className="container mx-auto px-6 max-w-5xl animate-on-scroll">
         <h2 className="text-2xl font-bold mb-8 tracking-tight">Education</h2>
         
         <div className="grid md:grid-cols-2 gap-8">
           {education.map((edu) => (
-            <div key={edu.id} className="p-8 bg-surface/50 border border-border ">
+            <div key={edu.id} className="p-8 bg-surface/50 border border-border">
               <div className="flex flex-col mb-4">
                 <h3 className="text-xl font-bold leading-snug mb-2">{edu.degree}</h3>
                 <h4 className="text-primary/80 font-medium">{edu.institution}</h4>

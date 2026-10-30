@@ -1,45 +1,46 @@
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import useViewportHeight from '../hooks/useViewportHeight';
 
-export default function Navbar({ name }) {
+const navLinks = [
+  { name: 'Home', href: '#' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'About', href: '#about' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Contact', href: '#contact' },
+];
+
+const SLIDE_TRANSITION = "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
+
+export default function Navbar() {
   const [isHovered, setIsHovered] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [vh, setVh] = useState(800);
-
-  useEffect(() => {
-    setVh(window.innerHeight);
-    const handleResize = () => setVh(window.innerHeight);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const vh = useViewportHeight();
 
   const { scrollY } = useScroll();
-  
-  // The navbar hides over the first half of the Hero-to-Projects transition (0.5vh)
+
+  // The navbar hides over the first half of the Hero-to-Projects scrub (HeroAndProjects uses 1vh)
   const hideDistance = vh * 0.5;
   const scrubbedY = useTransform(scrollY, [0, hideDistance], ["0%", "-100%"]);
-  
-  // Track if we are past the hero scrub to enable hover animations on all subsequent pages
-  const [isPastHero, setIsPastHero] = useState(false);
-  useEffect(() => {
-    return scrollY.on('change', (latest) => {
-      setIsPastHero(latest >= hideDistance);
-    });
-  }, [scrollY, hideDistance]);
 
-  const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  // Past the hero scrub the navbar is fully hidden, so hover reveals should animate
+  const [isPastHero, setIsPastHero] = useState(false);
+  useMotionValueEvent(scrollY, 'change', (latest) => setIsPastHero(latest >= hideDistance));
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
 
   const forceShow = isHovered || mobileMenuOpen;
 
   return (
-    <div 
+    <div
       className="fixed top-0 left-0 w-full z-50"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -47,13 +48,11 @@ export default function Navbar({ name }) {
       {/* Invisible hit area at the very top edge of the screen */}
       <div className="absolute top-0 left-0 w-full h-8 bg-transparent z-50" />
 
-      <motion.header 
-        style={{ 
+      <motion.header
+        style={{
           "--scroll-y": scrubbedY,
           transform: forceShow ? "translateY(0%)" : "translateY(var(--scroll-y))",
-          transition: isPastHero 
-            ? "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)" 
-            : (forceShow ? "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)" : "none")
+          transition: isPastHero || forceShow ? SLIDE_TRANSITION : "none",
         }}
         className="relative w-full z-40 bg-transparent py-6"
       >
@@ -62,8 +61,8 @@ export default function Navbar({ name }) {
           {/* Desktop Nav */}
           <nav className="hidden md:flex gap-8">
             {navLinks.map((link) => (
-              <a 
-                key={link.name} 
+              <a
+                key={link.name}
                 href={link.href}
                 className="text-sm font-medium text-secondary hover:text-primary transition-colors"
               >
@@ -73,12 +72,14 @@ export default function Navbar({ name }) {
           </nav>
 
           {/* Mobile Nav Toggle */}
-          <button 
+          <button
             className="md:hidden z-50 text-primary"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Menu"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" aria-hidden="true">
               {mobileMenuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -89,10 +90,10 @@ export default function Navbar({ name }) {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="fixed inset-0 bg-background/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 md:hidden fade-in">
+            <nav id="mobile-menu" className="fixed inset-0 bg-background/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 md:hidden fade-in">
               {navLinks.map((link) => (
-                <a 
-                  key={link.name} 
+                <a
+                  key={link.name}
                   href={link.href}
                   className="text-2xl font-semibold hover:text-accent transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
@@ -100,7 +101,7 @@ export default function Navbar({ name }) {
                   {link.name}
                 </a>
               ))}
-            </div>
+            </nav>
           )}
         </div>
       </motion.header>

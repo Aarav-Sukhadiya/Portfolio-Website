@@ -1,4 +1,4 @@
-import SpectralWaveformBg from './ui/skills-backgrounds/SpectralWaveformBg';
+import SpectralWaveformBg from './ui/SpectralWaveformBg';
 import { 
   FaPython, FaJava, FaDatabase, FaHtml5, FaCss3Alt, FaReact, 
   FaNodeJs, FaGit, FaGithub, FaDocker, FaUnity, FaLinux,
@@ -37,37 +37,37 @@ const iconMap = {
   'MCP': <FaTools className="w-5 h-5 text-accent" />
 };
 
-export default function Skills({ skills }) {
-  const categories = [
-    { 
-      key: 'languages', 
-      label: 'Languages',
-      icon: <FaCode className="w-6 h-6" />
-    },
-    { 
-      key: 'frontend', 
-      label: 'Frontend',
-      icon: <FaReact className="w-6 h-6" />
-    },
-    { 
-      key: 'backend', 
-      label: 'Backend & ML',
-      icon: <FaServer className="w-6 h-6" />
-    },
-    { 
-      key: 'tools', 
-      label: 'Tools & DevOps',
-      icon: <FaTools className="w-6 h-6" />
-    }
-  ];
+const categories = [
+  { 
+    key: 'languages', 
+    label: 'Languages',
+    icon: <FaCode className="w-6 h-6" />
+  },
+  { 
+    key: 'frontend', 
+    label: 'Frontend',
+    icon: <FaReact className="w-6 h-6" />
+  },
+  { 
+    key: 'backend', 
+    label: 'Backend & ML',
+    icon: <FaServer className="w-6 h-6" />
+  },
+  { 
+    key: 'tools', 
+    label: 'Tools & DevOps',
+    icon: <FaTools className="w-6 h-6" />
+  }
+];
 
+export default function Skills({ skills }) {
   return (
     <section id="skills" className="relative min-h-screen flex flex-col justify-center py-24 bg-background overflow-hidden scroll-mt-0">
       {/* 1. Integrated Spectral Waveform Blueprint Background with Sine Slider */}
       <SpectralWaveformBg />
 
       {/* 2. Skills Content Layer */}
-      <div className="container mx-auto px-6 max-w-6xl relative z-10 animate-on-scroll opacity-0 translate-y-8 transition-all duration-700 ease-out">
+      <div className="container mx-auto px-6 max-w-6xl relative z-10 animate-on-scroll">
         <div className="flex items-center gap-2 mb-2">
           <span className="w-2 h-2 bg-accent inline-block" />
           <span className="text-xs font-mono text-accent uppercase tracking-widest">

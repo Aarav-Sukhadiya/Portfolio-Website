@@ -1,20 +1,12 @@
-import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaGithub } from 'react-icons/fa';
 import InteractiveScanningHUD from './ui/InteractiveScanningHUD';
 import ProjectCard from './ui/ProjectCard';
 import usePositionAwareTransform from '../hooks/usePositionAwareTransform';
+import useViewportHeight from '../hooks/useViewportHeight';
 
 export default function HeroAndProjects({ data }) {
-  const [vh, setVh] = useState(800);
-
-  useEffect(() => {
-    setVh(window.innerHeight);
-    const handleResize = () => setVh(window.innerHeight);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  const vh = useViewportHeight();
   const { scrollY } = useScroll();
 
   // 100vh of scrolling transitions Hero to Projects cleanly aligned with 1-page steps
@@ -39,21 +31,11 @@ export default function HeroAndProjects({ data }) {
   const titleX = usePositionAwareTransform(scrollY, scrubDistance, 0.0, 10);
   const buttonX = usePositionAwareTransform(scrollY, scrubDistance, 1.0, 11);
 
-  const bentoClasses = [
-    "md:col-span-2 md:row-span-2",
-    "md:col-span-2 md:row-span-1",
-    "md:col-span-1 md:row-span-1",
-    "md:col-span-1 md:row-span-1",
-    "md:col-span-2 md:row-span-1",
-    "md:col-span-2 md:row-span-1",
-  ];
 
   return (
     <section id="home" className="relative h-[200vh] bg-background">
       <div id="projects" className="absolute top-[100vh] w-full" />
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-
-        
         {/* FIXED BACKGROUND IMAGE - Fades out as we enter Projects so it never bleeds into Projects or About */}
         <motion.div 
           style={{ opacity: heroBgOpacity, display: heroBgDisplay }} 
@@ -61,9 +43,9 @@ export default function HeroAndProjects({ data }) {
         >
           <img 
             src="/hero-bg.jpg" 
-            alt={`${data.name} - Banner`} 
+            alt=""
             className="w-full h-full object-cover"
-            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-background"></div>
         </motion.div>
@@ -88,7 +70,7 @@ export default function HeroAndProjects({ data }) {
               
               <div className="flex items-center gap-2 text-white/60 font-mono uppercase tracking-widest animate-pulse justify-center">
                 <span>Scroll to see projects</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5" aria-hidden="true">
                   <path d="M5 12h14" />
                   <path d="m12 5 7 7-7 7" />
                 </svg>
@@ -109,7 +91,7 @@ export default function HeroAndProjects({ data }) {
               <motion.h2 style={{ x: titleX }} className="text-4xl md:text-5xl font-space font-bold tracking-tight">Projects</motion.h2>
               <motion.a 
                 style={{ x: buttonX }}
-                href={data.social?.github || "https://github.com"} 
+                href={data.social.github} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="flex items-center gap-2 text-sm md:text-base font-mono border border-white/20 hover:border-white/40 bg-background px-3 md:px-5 py-2 hover:bg-surface transition-colors text-primary"
@@ -120,13 +102,12 @@ export default function HeroAndProjects({ data }) {
               </motion.a>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-none md:grid-rows-[repeat(3,minmax(0,1fr))] gap-4 w-full h-auto md:h-[70vh]">
+            <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-none md:grid-rows-[repeat(3,minmax(0,1fr))] gap-4 w-full h-auto md:h-[70vh]">
               {data.projects.map((project, idx) => (
                 <ProjectCard 
                   key={project.id} 
                   project={project} 
-                  idx={idx} 
-                  bentoClasses={bentoClasses} 
+                  idx={idx}
                   scrollY={scrollY} 
                   scrubDistance={scrubDistance} 
                 />

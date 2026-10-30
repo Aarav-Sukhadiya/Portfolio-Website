@@ -9,6 +9,8 @@ This document tracks all design-related decisions for the portfolio.
   - *Usage:* Used for body text, regular headings, buttons, and navigation. A rhythmic, geometric, humanist sans (closest free alternative to Massilia).
 - **Monospace Accent:** `JetBrains Mono`
   - *Usage:* Used for small labels, code, decorative metadata, project numbers, and subtitles. Adds a crisp technical engineer aesthetic.
+- **Section Headings:** `Space Grotesk`
+  - *Usage:* Section titles (`Projects`, `About Me`, `Skills`), skill category labels, and the About quotes. Tech and geometric.
 
 ## Shape & Geometry
 - **Zero Rounded Corners:** All elements (cards, buttons, images) must use sharp corners (`rounded-none`). This reinforces a rigid, technical, and precise aesthetic.
@@ -23,5 +25,6 @@ This document tracks all design-related decisions for the portfolio.
 
 ## Layout & Components
 - **Hero:** Full-screen banner with a top-down dark gradient overlay to ensure the headline is readable regardless of the background image.
-- **Projects:** Interactive 3D flip cards (without explicit instructions, to surprise users). Displayed in an asymmetric, Pinterest-style masonry grid.
-- **Skills:** Clean, boxed layout with descriptive SVG icons for each category.
+- **Projects:** Interactive 3D flip cards (without explicit instructions, to surprise users). Displayed in an asymmetric six-slot bento grid on desktop and a two-column grid on mobile, over a world-map, blueprint-grid, and mouse-crosshair HUD.
+- **About:** Bento cards that rise in on scroll over a topographic contour blueprint background.
+- **Skills:** Clean, boxed layout with descriptive SVG icons for each category, over a Fourier waveform blueprint background with a mouse-driven probe.

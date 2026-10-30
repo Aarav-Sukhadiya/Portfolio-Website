@@ -1,8 +1,16 @@
 import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { createBezierEasing } from '../../../hooks/usePositionAwareTransform';
+import { createBezierEasing } from '../../hooks/usePositionAwareTransform';
 
-export default function TopographicBlueprintBg({ style, scrollYProgress, mapY: propMapY, gridY: propGridY }) {
+// Master entrance: rises from below (40vh -> 0vh) and fades in as About scrolls into place
+const easeMaster = createBezierEasing(0.12, 0.88, 0.2, 1.0);
+
+// Distinct non-linear parallax layers for contour map, grid, and telemetry
+const easeMap = createBezierEasing(0.08, 0.92, 0.18, 1.0);
+const easeGrid = createBezierEasing(0.2, 0.8, 0.25, 1.0);
+const easeTelemetry = createBezierEasing(0.15, 0.85, 0.2, 1.0);
+
+export default function TopographicBlueprintBg({ scrollYProgress }) {
   const mouseX = useMotionValue(-1000);
   const mouseY = useMotionValue(-1000);
 
@@ -18,37 +26,21 @@ export default function TopographicBlueprintBg({ style, scrollYProgress, mapY: p
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Master entrance choreography:
-  // 1. Comes from the bottom (40vh -> 0vh)
-  // 2. Fades in from 0% opacity (invisible) to 100% opacity when in About page fully
-  const easeMaster = createBezierEasing(0.12, 0.88, 0.2, 1.0);
-  const bgMasterOpacity = scrollYProgress 
-    ? useTransform(scrollYProgress, [0, 0.95], [0, 1], { ease: easeMaster }) 
-    : 1;
-  const bgMasterY = scrollYProgress 
-    ? useTransform(scrollYProgress, [0, 1], ["40vh", "0vh"], { ease: easeMaster }) 
-    : 0;
-
-  // Distinct non-linear parallax layers for contour map, grid, and telemetry
-  const easeMap = createBezierEasing(0.08, 0.92, 0.18, 1.0);
-  const easeGrid = createBezierEasing(0.2, 0.8, 0.25, 1.0);
-  const easeTelemetry = createBezierEasing(0.15, 0.85, 0.2, 1.0);
-
-  const autoMapY = scrollYProgress ? useTransform(scrollYProgress, [0, 1], ["20vh", "0vh"], { ease: easeMap }) : 0;
-  const autoGridY = scrollYProgress ? useTransform(scrollYProgress, [0, 1], ["10vh", "0vh"], { ease: easeGrid }) : 0;
-  const telemetryY = scrollYProgress ? useTransform(scrollYProgress, [0, 1], ["15vh", "0vh"], { ease: easeTelemetry }) : 0;
-
-  const resolvedMapY = propMapY !== undefined ? propMapY : autoMapY;
-  const resolvedGridY = propGridY !== undefined ? propGridY : autoGridY;
+  const bgMasterOpacity = useTransform(scrollYProgress, [0, 0.95], [0, 1], { ease: easeMaster });
+  const bgMasterY = useTransform(scrollYProgress, [0, 1], ["40vh", "0vh"], { ease: easeMaster });
+  const mapY = useTransform(scrollYProgress, [0, 1], ["20vh", "0vh"], { ease: easeMap });
+  const gridY = useTransform(scrollYProgress, [0, 1], ["10vh", "0vh"], { ease: easeGrid });
+  const telemetryY = useTransform(scrollYProgress, [0, 1], ["15vh", "0vh"], { ease: easeTelemetry });
 
   return (
     <motion.div 
-      style={{ ...style, opacity: bgMasterOpacity, y: bgMasterY }} 
+      style={{ opacity: bgMasterOpacity, y: bgMasterY }} 
       className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none"
+      aria-hidden="true"
     >
       {/* 1. Technical Drafting Blueprint Grid with vertical parallax */}
       <motion.div 
-        style={{ y: resolvedGridY }}
+        style={{ y: gridY }}
         className="absolute inset-0 opacity-[0.06]" 
       >
         <div 
@@ -62,7 +54,7 @@ export default function TopographicBlueprintBg({ style, scrollYProgress, mapY: p
 
       {/* 2. Topographic Elevation Contour Vector Map (slides up from below with parallax) */}
       <motion.div 
-        style={{ y: resolvedMapY }}
+        style={{ y: mapY }}
         className="absolute inset-0 w-full h-full opacity-[0.22]"
       >
         <svg 

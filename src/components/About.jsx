@@ -1,7 +1,29 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createBezierEasing } from '../hooks/usePositionAwareTransform';
-import TopographicBlueprintBg from './ui/about-backgrounds/TopographicBlueprintBg';
+import TopographicBlueprintBg from './ui/TopographicBlueprintBg';
+
+// Distinct, non-linear cubic-bezier speed curves (mirroring Home -> Projects organic choreography)
+// 1. Heading drops in with high initial acceleration and soft landing
+const easeHeading = createBezierEasing(0.05, 0.95, 0.1, 1.0);
+
+// 2. Main Intro Profile Card (Left Top) - energetic surge, early arrival
+const easeIntro = createBezierEasing(0.1, 0.9, 0.15, 1.0);
+
+// 3. Focus Card (Right Top) - S-curve with delayed burst
+const easeFocus = createBezierEasing(0.4, 0.05, 0.2, 1.0);
+
+// 4. Location & Status Card (Right Middle) - snappy mid-flight velocity
+const easeLocation = createBezierEasing(0.25, 0.85, 0.15, 1.0);
+
+// 5. Interests Card (Right Bottom) - delayed whip
+const easeInterests = createBezierEasing(0.65, 0.08, 0.25, 1.0);
+
+// 6. Quote 1 (Left Bottom) - steady momentum
+const easeQuote1 = createBezierEasing(0.18, 0.82, 0.22, 1.0);
+
+// 7. Quote 2 (Right Bottom) - dramatic late snap (straggler)
+const easeQuote2 = createBezierEasing(0.85, 0.0, 0.1, 1.0);
 
 export default function About({ data }) {
   const targetRef = useRef(null);
@@ -11,28 +33,6 @@ export default function About({ data }) {
     target: targetRef,
     offset: ["start end", "start start"]
   });
-
-  // Distinct, non-linear cubic-bezier speed curves (mirroring Home -> Projects organic choreography)
-  // 1. Heading drops in with high initial acceleration and soft landing
-  const easeHeading = createBezierEasing(0.05, 0.95, 0.1, 1.0);
-
-  // 2. Main Intro Profile Card (Left Top) - energetic surge, early arrival
-  const easeIntro = createBezierEasing(0.1, 0.9, 0.15, 1.0);
-
-  // 3. Focus Card (Right Top) - S-curve with delayed burst
-  const easeFocus = createBezierEasing(0.4, 0.05, 0.2, 1.0);
-
-  // 4. Location & Status Card (Right Middle) - snappy mid-flight velocity
-  const easeLocation = createBezierEasing(0.25, 0.85, 0.15, 1.0);
-
-  // 5. Interests Card (Right Bottom) - delayed whip
-  const easeInterests = createBezierEasing(0.65, 0.08, 0.25, 1.0);
-
-  // 6. Quote 1 (Left Bottom) - steady momentum
-  const easeQuote1 = createBezierEasing(0.18, 0.82, 0.22, 1.0);
-
-  // 7. Quote 2 (Right Bottom) - dramatic late snap (straggler)
-  const easeQuote2 = createBezierEasing(0.85, 0.0, 0.1, 1.0);
 
   // Section Heading and label drop down vertically into place
   const headingY = useTransform(scrollYProgress, [0, 1], ["-70px", "0px"], { ease: easeHeading });
@@ -97,7 +97,8 @@ export default function About({ data }) {
                <div className="w-32 h-32 md:w-48 md:h-48 flex-shrink-0 border border-border p-1 bg-surface/50">
                  <img 
                     src="/profile.jpg" 
-                    alt="Profile" 
+                    alt="Portrait of Aarav Sukhadiya"
+                    loading="lazy" 
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
                  />
                </div>

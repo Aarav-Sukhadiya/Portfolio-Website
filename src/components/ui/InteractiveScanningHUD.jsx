@@ -23,14 +23,14 @@ export default function InteractiveScanningHUD({ scrollY, scrubDistance }) {
   const gridX = usePositionAwareTransform(scrollY, scrubDistance, 0.8, 60);
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
       
       {/* Faint World Map */}
       <motion.div 
         style={{ x: mapX }}
         className="absolute inset-0 z-0 opacity-[0.05] mix-blend-screen"
       >
-         <img src="/world-map.svg" className="absolute inset-0 w-full h-full object-cover object-center filter invert opacity-50" alt="World Map Radar" />
+         <img src="/world-map.svg" className="absolute inset-0 w-full h-full object-cover object-center filter invert opacity-50" alt="" />
       </motion.div>
       
       {/* Blueprint Grid */}
